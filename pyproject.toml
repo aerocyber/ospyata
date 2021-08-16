@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "ospyata"
+version = "0.1.0"
+description = "Python bindings for osmata."
+authors = ["aerocyber"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.26.0"
+shortlink = "^0.1.6"
+pycryptodome = "^3.10.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
