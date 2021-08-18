@@ -3,6 +3,4 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-from . import loadOMIO, manageOsmation, writeOMIO, __version__
-
-__version__ = __version__.__version__
+__version__ = '1.0.0'
