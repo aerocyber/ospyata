@@ -51,7 +51,7 @@ def delOsmation(db: list, name: str):
             break
     return db
 
-def modName(name: str, db: list, newName: name):
+def modName(name: str, db: list, newName: str):
     """Change the name of osmation.
 
     Args:
