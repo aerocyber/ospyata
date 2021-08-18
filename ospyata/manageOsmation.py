@@ -80,7 +80,13 @@ def changeURL(name: str, newUrl: str, db: str):
             break
 
 def remByName(name: str, db: list):
+    """Delete osmation by name
+
+    Args:
+        name (str): Name of osmation to delete.
+        db (list): List of osmations.
+    """
     for i in db:
-        if name in i:
+        if i["Name"] == name:
             index = db.index(i)
             _ = i.pop(index)
