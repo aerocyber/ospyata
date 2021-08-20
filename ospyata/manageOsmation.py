@@ -90,3 +90,4 @@ def remByName(name: str, db: list):
         if i["Name"] == name:
             index = db.index(i)
             _ = i.pop(index)
+
