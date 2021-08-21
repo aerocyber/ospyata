@@ -1,13 +1,12 @@
 [tool.poetry]
 name = "ospyata"
-version = "1.0.1"
+version = "1.0.2"
 description = "Python bindings for osmata."
 authors = ["aerocyber"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-shortlink = "^0.1.6"
 
 [tool.poetry.dev-dependencies]
 

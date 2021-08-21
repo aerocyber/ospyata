@@ -35,6 +35,10 @@ def createOMIO(db, outfile, header=None):
             raise TypeError("{header} is expected to be None or of type dict.".format(
                 header=header
             ))
+        if "SHA-256" in header.keys():
+            raise ValueError("{header} is not expected to have user defined SHA-256.".format(
+                header = header
+            ))
         headers.update(header)
     headers["SHA-256"] = hashlib.sha256(db) # For ospyata and other osmation bindings to validate data integrity.
     data = {"Data": db}
