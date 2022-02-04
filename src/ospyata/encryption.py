@@ -12,6 +12,15 @@ from Cryptodome.Random import get_random_bytes
 
 
 def encrypt(plain_text, password):
+    """Encrypt the database.
+
+    Args:
+        plain_text (str): The database (as string) to be encrypted.
+        password (str): The password with which the database will be encrypted.
+
+    Returns:
+        dict: Necessary information to decrypt the database.
+    """
     # generate a random salt
     salt = get_random_bytes(AES.block_size)
 
@@ -34,6 +43,16 @@ def encrypt(plain_text, password):
 
 
 def decrypt(enc_dict, password):
+    """Decrypt the database.
+
+    Args:
+        enc_dict (dict): The dictionary with the encrypted database and the 
+                         necessary information to decrypt it.
+        password (str): Password with which the database was encrypted.
+
+    Returns:
+        str: Decrypted database as string.
+    """
     # decode the dictionary entries from base64
     salt = b64decode(enc_dict['salt'])
     cipher_text = b64decode(enc_dict['cipher_text'])
