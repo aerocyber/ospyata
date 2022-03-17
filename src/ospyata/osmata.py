@@ -10,7 +10,6 @@
 import hashlib
 import json
 import validators
-from . import encryption
 
 
 class Osmata:
@@ -206,59 +205,11 @@ class Osmata:
                 "Type": "Invalid"
             }
 
-    def encryptDB(self, pswd: str):
-        """Encrypt database with AES Encryption."""
-        _result = encryption.encrypt(json.dumps(self.db), pswd)
-        self.salt = _result["salt"]
-        self.nonce = _result["nonce"]
-        self.tag = _result["tag"]
-        self.db = _result["cipher_text"]
-        return _result
 
-    def decryptDB(self, ciphertext, salt, tag, nonce, pswd: str):
-        """Decrypt database with AES Encryption."""
-        db = {
-            'cipher_text': ciphertext,
-            'salt': salt,
-            'nonce': nonce,
-            'tag': tag
-        }
-        _result = encryption.decrypt(db, pswd)
-        self.db = json.loads(_result["db"])
-        return _result
-
-    def export_as_omio(self, encryption: bool, pswd=False):
+    def export_as_omio(self):
         """Return omio file."""
-        Extra_data = {
-            "salt": self.salt,
-            "nonce": self.nonce,
-            "tag": self.tag
-        }
-        if encryption:
-            if pswd == False:
-                return {
-                    "Code": "Error",
-                    "On": encryption + " & " + pswd,
-                    "Type": "No password"
-                }
-            if pswd == True:
-                return {
-                    "Code": "Error",
-                    "On": pswd,
-                    "Type": "Expected str got bool"
-                }
-            _result = self.encryptDB(json.dumps(self.db), pswd)
-            self.db = _result["cipher_text"]
-            encryption = "True"
-            pshash = hashlib.sha256(pswd.encode('utf-8')).hexdigest()
-        else:
-            encryption = "False"
-            pshash = ""
         head = {
-            "Omio Version": "2.0",
-            "Restricted": encryption,
-            "Password Hash": pshash,
-            "Extra Data": Extra_data
+            "Omio Version": "2.0"
         }
         data = {
             "Data": self.db
@@ -279,12 +230,11 @@ class Osmata:
             "Type": "Created omio file format"
         }
 
-    def open_omio_file(self, file_content: str, pswd=False):
+    def open_omio_file(self, file_content: str):
         """Use the file_content and return the databse, unencrypted.
 
         Args:
             file_content (str): Content of the files.
-            pswd (str): Password.
         """
         _db = json.loads(file_content)
         try:
@@ -294,29 +244,7 @@ class Osmata:
                     "On": _db["Header"]["Omio Version"],
                     "Type": "Wrong version"
                 }
-            if _db["Header"]["Restricted"]:
-                if not pswd:
-                    return {
-                        "Code": "Error",
-                        "On": _db["Header"]["Restricted"],
-                        "Type": "Password required"
-                    }
-                if pswd:
-                    _result = self.decryptDB(
-                        _db["Data"],
-                        _db["Header"]["Extra Data"]["salt"],
-                        _db["Header"]["Extra Data"]["tag"],
-                        _db["Header"]["Extra Data"]["nonce"],
-                        pswd
-                    )
-                    _data = json.loads(_result["db"])
-                    return {
-                        "Code": "Success",
-                        "On": _data,
-                        "Type": "Decrypted"
-                    }
-            if not _db["Header"]["Restricted"]:
-                return {
+            return {
                     "Code": "Success",
                     "On": _db["Data"],
                     "Type": "Unencrypted"
@@ -328,14 +256,13 @@ class Osmata:
                 "Type": "Errors in database"
             }
 
-    def import_from_omio(self, file_content: str, pswd=False):
+    def import_from_omio(self, file_content: str):
         """Use the file_content and import the database.
 
         Args:
             file_content (str): Content of the files.
-            pswd (str): Password.
         """
-        _db = self.open_omio_file(file_content, pswd)
+        _db = self.open_omio_file(file_content)
         if _db["Code"] == "Error":
             return _db
         self.db = _db["On"]
