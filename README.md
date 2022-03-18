@@ -17,7 +17,7 @@ Python bindings for osmata
 
 ## Docs
 
-Visit [Docs](https://aerocyber.github.io/ospyata/docs/index.md) page!
+Visit [Docs](https://aerocyber.github.io/ospyata/docs/) page!
 
 ### LICENSE
 
