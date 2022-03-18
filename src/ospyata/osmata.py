@@ -7,7 +7,7 @@
    Manage osmations: add, delete, edit, view.
 """
 
-import hashlib
+
 import json
 import validators
 
@@ -93,7 +93,7 @@ class Osmata:
             _url_validation = self.check_url(url)
             if _url_validation["Code"] == "Error":
                 return _url_validation
-            _url = self.check_existance(url)
+            _url = self.check_existance(url=url)
             if _url["Type"] == "Exists":
                 return {
                     "Code": "Error",
@@ -205,7 +205,6 @@ class Osmata:
                 "Type": "Invalid"
             }
 
-
     def export_as_omio(self):
         """Return omio file."""
         head = {
@@ -231,7 +230,7 @@ class Osmata:
         }
 
     def open_omio_file(self, file_content: str):
-        """Use the file_content and return the databse, unencrypted.
+        """Use the file_content and return the databse.
 
         Args:
             file_content (str): Content of the files.
@@ -245,10 +244,10 @@ class Osmata:
                     "Type": "Wrong version"
                 }
             return {
-                    "Code": "Success",
-                    "On": _db["Data"],
-                    "Type": "Unencrypted"
-                }
+                "Code": "Success",
+                "On": _db["Data"],
+                "Type": "Osmations"
+            }
         except:
             return {
                 "Code": "Error",

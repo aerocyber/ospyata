@@ -1,3 +1,4 @@
 {
-    "licenser.license": "MIT"
+    "licenser.license": "MIT",
+    "python.formatting.provider": "autopep8"
 }
