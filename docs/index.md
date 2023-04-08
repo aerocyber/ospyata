@@ -14,6 +14,7 @@ The recommended way of installation is through a virtual environment.
 
 ```bash
 python3 -m pip install opyata
+```
 
 Note: Ospyata requires Python version 3.11 or above.
 
