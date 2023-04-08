@@ -1,1 +1,2 @@
-validators
+decorator==5.1.1
+validators==0.20.0
