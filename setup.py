@@ -19,7 +19,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 setup(
     name='ospyata',
     license="MIT License",
-    version='2.0.4',
+    version='3.0.0',
     description='Python library for the open source bookmark app Osmata.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -37,7 +37,7 @@ setup(
     keywords='osmata, development, osmata-bindings, osmata-python-bindings, bookmarks',
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
-    python_requires='>=3.9, <4',
+    python_requires='>=3.11, <4',
     install_requires=['validators'],
     project_urls={
         'Bug Reports': 'https://github.com/aerocyber/ospyata/issues',
