@@ -10,7 +10,7 @@ Ospyata is available in PyPI. So, installation is as simple as:
 python3 -m pip install --user ospyata # For per-user installation.
 ```
 
-The recommended way of installation is through a virtual environment. 
+The recommended way of installation is through a virtual environment.
 
 ```bash
 python3 -m pip install opyata
@@ -25,7 +25,7 @@ Note: Ospyata requires Python version 3.11 or above.
 Importing the module is very simple. Just use:
 
 ```python
-import ospyata
+import ospyata.osmata as ospyata
 
 osmata = ospyata.Osmata()
 ```
@@ -63,7 +63,6 @@ osmata.push("example")
 The library - `ospyata` - do not deal with errors. `ospyata` do `raise` `Exception`s, but do not deal with internal errors and exceptions but re-raises them for the application developer using `ospyata` to handle. See [Error policy](Error_policy.md) for details.
 
 ### `Exceptions` raised and re-raised by `ospyata`
-
 
 #### Exception raised by the library `validators`
 
