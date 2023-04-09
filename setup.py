@@ -19,7 +19,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 setup(
     name='ospyata',
     license="MIT License",
-    version='3.0.0',
+    version='3.0.1',
     description='Python library for the open source bookmark app Osmata.',
     long_description=long_description,
     long_description_content_type='text/markdown',
