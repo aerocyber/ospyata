@@ -19,7 +19,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 setup(
     name='ospyata',
     license="MIT License",
-    version='3.0.1',
+    version='3.1.0',
     description='Python library for the open source bookmark app Osmata.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -33,7 +33,7 @@ setup(
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3 :: Only',
     ],
-    keywords='osmata, development, osmata-bindings, osmata-python-bindings, bookmarks',
+    keywords='osmata, development, osmata-bindings, osmata-python-bindings, bookmarks, ospyata',
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
     python_requires='>=3.11, <4',

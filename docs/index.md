@@ -58,6 +58,43 @@ Example usage:
 osmata.push("example")
 ```
 
+### Get the omio string
+
+omio string refers to the way the datastructure is returned for storing in the .omio file.
+
+```py
+osmata.dumpOmio()
+```
+
+Example usage:
+
+```python
+omio_string = osmata.dumpOmio()
+```
+
+### Validate an omio string
+
+A string can be validated to check if it is a valid omio string or not.
+
+```py
+osmata.validate_omio(dat)
+```
+
+Example usage:
+
+```python
+is_valid = osmata.validate_omio(dat) # dat is some string
+# is_valid = True if it is a valid omio string. Else False.
+```
+
+### Load an omio file as an omio db
+
+An omio file can be opened to return an omio db.
+
+```py
+osmata.loadOmio(path) # where path is the path to the omio file
+```
+
 ## Exceptions
 
 The library - `ospyata` - do not deal with errors. `ospyata` do `raise` `Exception`s, but do not deal with internal errors and exceptions but re-raises them for the application developer using `ospyata` to handle. See [Error policy](Error_policy.md) for details.
@@ -87,3 +124,11 @@ This is raised when the `check_existance()` function under the class `Osmata` is
 #### `OspyataException("Both name and url is present.")` in `Osmata.check_existance()`
 
 This is raised when the `check_existance()` function under the class `Osmata` is called with values for `name` AND `url`.
+
+#### `OspyataException("Invalid omio file.")` in `Osmata.loadOmio()`
+
+This is raised when the omio file fales the validation.
+
+#### `FileNotFoundError("The file: " + <omio_path> + " was not found.")` in `Osmata.loadOmio()`
+
+This is raised when the file is not found.

@@ -5,6 +5,9 @@
 
 import json
 import validators
+from typing import List
+import pathlib
+from jsonschema import validate
 
 
 class OspyataException(Exception):
@@ -14,9 +17,9 @@ class OspyataException(Exception):
 class Osmata:
 
     def __init__(self):
-        db = {}  # Initialize the datastructure.
+        self.db = {}  # Initialize the datastructure.
 
-    def push(self, name: str, url: str, categories: str = []):
+    def push(self, name: str, url: str, categories: List[str] = []):
         """Push a record to the datastructure.
 
         Args:
@@ -58,6 +61,60 @@ class Osmata:
         else:
             _msg = name + " do not exist in db."
             raise OspyataException(_msg)  # Either success or failure.
+
+    def validate_omio(self, dat: str):
+        """Validate an omio file
+
+        Args:
+            dat (str): The omio string.
+        """
+        schema = {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://example.com/product.schema.json",
+            "title": "Osmations",
+            "description": "A record of all bookmarks.",
+            "type": "object",
+            "properties": {
+                "Name": {
+                    "description": "The unique identifier for a record.",
+                    "type": "string"
+                },
+                "URL": {
+                    "description": "URL associated with the Name.",
+                    "type": "string"
+                },
+                "Categories": {
+                    "description": "Tags for the Record",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": ["Name", "URL"]
+        }
+        try:
+            validate(instance=dat, schema=schema)
+        except Exception as e:
+            return False
+        else:
+            return True
+
+    def dumpOmio(self):
+        return json.dumps(self.db)
+
+    def loadOmio(self, omio_path):
+        if pathlib.Path(omio_path).exists():
+            f = open(omio_path, 'r')
+            data = f.read()
+            f.close()
+            if self.validate_omio(dat=data):
+                _json = json.loads(data)
+                return _json
+            else:
+                raise OspyataException("Invalid omio file.")
+        else:
+            raise FileNotFoundError("The file: " + omio_path + " was not found.")
 
     def check_existance(self, name=False, url=False):
         """Check if osmation exists in database.
