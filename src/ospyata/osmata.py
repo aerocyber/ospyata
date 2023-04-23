@@ -7,7 +7,6 @@ import json
 import validators
 from typing import List
 import pathlib
-from jsonschema import validate
 
 
 class OspyataException(Exception):
@@ -68,37 +67,64 @@ class Osmata:
         Args:
             dat (str): The omio string.
         """
-        schema = {
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "$id": "https://example.com/product.schema.json",
-            "title": "Osmations",
-            "description": "A record of all bookmarks.",
-            "type": "object",
-            "properties": {
-                "Name": {
-                    "description": "The unique identifier for a record.",
-                    "type": "string"
-                },
-                "URL": {
-                    "description": "URL associated with the Name.",
-                    "type": "string"
-                },
-                "Categories": {
-                    "description": "Tags for the Record",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            },
-            "required": ["Name", "URL"]
-        }
-        try:
-            validate(instance=dat, schema=schema)
-        except Exception as e:
-            return False
-        else:
-            return True
+        # schema = {
+        #     "$schema": "https://json-schema.org/draft/2020-12/schema",
+        #     "$id": "https://example.com/product.schema.json",
+        #     "title": "Osmations",
+        #     "description": "A record of all bookmarks.",
+        #     "type": "object",
+        #     "properties": {
+        #         "Name": {
+        #             "description": "The unique identifier for a record.",
+        #             "type": "string"
+        #         },
+        #         "URL": {
+        #             "description": "URL associated with the Name.",
+        #             "type": "string"
+        #         },
+        #         "Categories": {
+        #             "description": "Tags for the Record",
+        #             "type": "array",
+        #             "items": {
+        #                 "type": "string"
+        #             }
+        #         }
+        #     },
+        #     "required": ["Name", "URL"]
+        # }
+        # try:
+        #     validate(instance=dat, schema=schema)
+        # except Exception as e:
+        #     return False
+        # else:
+        #     return True
+        data = json.loads(dat)
+        _keys = data.keys()
+        _urls = []
+        _is_cat_list = True
+        for record in data:
+            if isinstance(record, str):
+                if isinstance(data[record], dict):
+                    if "URL" in data[record].keys():
+                        if "Categories" in data[record].keys():
+                            if not isinstance(data[record]["Categories"], list):
+                                return False
+                            else:
+                                try:
+                                    _is_url = self.validate_url(data[record]["URL"])
+                                except Exception:
+                                    return False
+                        else:
+                            return False
+                    else:
+                        return False
+                else:
+                    return False
+            else:
+                return False
+        return True
+
+
 
     def dumpOmio(self):
         return json.dumps(self.db)
