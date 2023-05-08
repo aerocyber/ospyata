@@ -4,7 +4,7 @@
 # https://opensource.org/licenses/MIT
 
 import json
-import validators
+import re
 from typing import List
 import pathlib
 
@@ -14,7 +14,6 @@ class OspyataException(Exception):
 
 
 class Osmata:
-
     def __init__(self):
         self.db = {}  # Initialize the datastructure.
 
@@ -42,10 +41,7 @@ class Osmata:
                 _msg = url + " exists in db."
                 raise OspyataException(_msg)
             else:
-                self.db[name] = {
-                    "URL": url,
-                    "Categories": categories
-                }
+                self.db[name] = {"URL": url, "Categories": categories}
 
     def pop(self, name: str):
         """Delete a record from db matching name.
@@ -67,37 +63,7 @@ class Osmata:
         Args:
             dat (str): The omio string.
         """
-        # schema = {
-        #     "$schema": "https://json-schema.org/draft/2020-12/schema",
-        #     "$id": "https://example.com/product.schema.json",
-        #     "title": "Osmations",
-        #     "description": "A record of all bookmarks.",
-        #     "type": "object",
-        #     "properties": {
-        #         "Name": {
-        #             "description": "The unique identifier for a record.",
-        #             "type": "string"
-        #         },
-        #         "URL": {
-        #             "description": "URL associated with the Name.",
-        #             "type": "string"
-        #         },
-        #         "Categories": {
-        #             "description": "Tags for the Record",
-        #             "type": "array",
-        #             "items": {
-        #                 "type": "string"
-        #             }
-        #         }
-        #     },
-        #     "required": ["Name", "URL"]
-        # }
-        # try:
-        #     validate(instance=dat, schema=schema)
-        # except Exception as e:
-        #     return False
-        # else:
-        #     return True
+
         data = json.loads(dat)
         _keys = data.keys()
         _urls = []
@@ -124,14 +90,12 @@ class Osmata:
                 return False
         return True
 
-
-
     def dumpOmio(self):
         return json.dumps(self.db)
 
     def loadOmio(self, omio_path):
         if pathlib.Path(omio_path).exists():
-            f = open(omio_path, 'r')
+            f = open(omio_path, "r")
             data = f.read()
             f.close()
             if self.validate_omio(dat=data):
@@ -152,7 +116,8 @@ class Osmata:
         if name == False:
             if url == False:
                 raise OspyataException(
-                    "Neither name nor url is present for existance checking.")
+                    "Neither name nor url is present for existance checking."
+                )
             else:
                 _names = self.db.keys()
                 for _name in _names:
@@ -176,8 +141,35 @@ class Osmata:
         Args:
             url (str): Url
         """
-        try:
-            if validators.url(url.strip()):
-                return True
-        except Exception as e:
-            raise e
+        # Regex source: https://github.com/django/django/blob/main/django/core/validators.py#L69
+        regex = re.compile(
+            r"^(?:[a-z0-9.+-]*)://"  # scheme is validated separately
+            r"(?:[^\s:@/]+(?::[^\s:@/]*)?@)?"  # user:pass authentication
+            r"(?:" + r"(?:0|25[0-5]|2[0-4][0-9]|1[0-9]?[0-9]?|[1-9][0-9]?)"
+            r"(?:\.(?:0|25[0-5]|2[0-4][0-9]|1[0-9]?[0-9]?|[1-9][0-9]?)){3}"
+            + "|"
+            + r"\[[0-9a-f:.]+\]"
+            + "|"
+            + "("
+            + r"[a-z"
+            + "\u00a1-\uffff"
+            + r"0-9](?:[a-z"
+            + "\u00a1-\uffff"
+            + r"0-9-]{0,61}[a-z"
+            + "\u00a1-\uffff"
+            + r"0-9])?"
+            + r"(?:\.(?!-)[a-z"
+            + "\u00a1-\uffff"
+            + r"0-9-]{1,63}(?<!-))*"
+            + r"\."  # dot
+            r"(?!-)"  # can't start with a dash
+            r"(?:[a-z" + "\u00a1-\uffff" + "-]{2,63}"  # domain label
+            r"|xn--[a-z0-9]{1,59})"  # or punycode label
+            r"(?<!-)"  # can't end with a dash
+            r"\.?" + "|localhost)" + ")"  # may have a trailing dot
+            r"(?::[0-9]{1,5})?"  # port
+            r"(?:[/?#][^\s]*)?"  # resource path
+            r"\Z",
+            re.IGNORECASE,
+        )
+        return re.match(regex, url) is not None
