@@ -19,7 +19,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 setup(
     name="ospyata",
     license="MIT License",
-    version="3.1.3",
+    version="3.1.4",
     description="Python library for the open source bookmark app Osmata.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -36,7 +36,7 @@ setup(
     keywords="osmata, development, osmata-bindings, osmata-python-bindings, bookmarks, ospyata",
     package_dir={"": "src"},
     packages=find_packages(where="src"),
-    python_requires=">=3.11, <4",
+    python_requires=">=3.09, <4",
     install_requires=[],  # Thanks to django's regex, validators is no longer required.
     project_urls={
         "Bug Reports": "https://github.com/aerocyber/ospyata/issues",
