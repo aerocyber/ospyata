@@ -13,33 +13,33 @@ import pathlib
 here = pathlib.Path(__file__).parent.resolve()
 
 # Get the long description from the README file
-long_description = (here / 'README.md').read_text(encoding='utf-8')
+long_description = (here / "README.md").read_text(encoding="utf-8")
 
 
 setup(
-    name='ospyata',
+    name="ospyata",
     license="MIT License",
-    version='3.1.1',
-    description='Python library for the open source bookmark app Osmata.',
+    version="3.1.3",
+    description="Python library for the open source bookmark app Osmata.",
     long_description=long_description,
-    long_description_content_type='text/markdown',
-    url='https://github.com/aerocyber/ospyata',
-    author='aerocyber',
+    long_description_content_type="text/markdown",
+    url="https://github.com/aerocyber/ospyata",
+    author="aerocyber",
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.11',
-        'Programming Language :: Python :: 3 :: Only',
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3 :: Only",
     ],
-    keywords='osmata, development, osmata-bindings, osmata-python-bindings, bookmarks, ospyata',
-    package_dir={'': 'src'},
-    packages=find_packages(where='src'),
-    python_requires='>=3.11, <4',
-    install_requires=['validators'],
+    keywords="osmata, development, osmata-bindings, osmata-python-bindings, bookmarks, ospyata",
+    package_dir={"": "src"},
+    packages=find_packages(where="src"),
+    python_requires=">=3.11, <4",
+    install_requires=[],  # Thanks to django's regex, validators is no longer required.
     project_urls={
-        'Bug Reports': 'https://github.com/aerocyber/ospyata/issues',
-        'Source': 'https://github.com/aerocyber/ospyata/',
+        "Bug Reports": "https://github.com/aerocyber/ospyata/issues",
+        "Source": "https://github.com/aerocyber/ospyata/",
     },
 )

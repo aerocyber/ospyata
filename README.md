@@ -28,5 +28,7 @@ See [LICENSE file](https://github.com/aerocyber/ospyata/blob/main/LICENSE)
 ### Support
 
 Financially: [Buy me a coffee](https://www.buymeacoffee.com/aerocyber)
+
 Code/Documentation: [Open a PR](https://github.com/aerocyber/ospyata/pulls)
+
 Error reporting: [Open an issue](https://github.com/aerocyber/ospyata/issues)
